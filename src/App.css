@@ -18,6 +18,9 @@ h1 {
 h2 {
   font-size: 2em;
   margin-bottom: .25em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 p {
