@@ -4,8 +4,8 @@
 
 export function sortBy(e, that) {
     let criteria = e.target.value,
-        displayedPosts = that.state.displayedPosts,
-        users = that.state.users,
+        displayedPosts = [...that.state.displayedPosts],
+        users = [...that.state.users],
         postsToSet;
 
     displayedPosts.forEach(post => {

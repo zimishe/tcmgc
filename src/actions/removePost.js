@@ -3,7 +3,7 @@
  */
 
 export function removePost(id, that) {
-    let postsToSet = that.state.displayedPosts.filter(post => post.id !== id);
+    let postsToSet = [...that.state.displayedPosts].filter(post => post.id !== id);
 
     that.setState(() => {
         return {displayedPosts: postsToSet}

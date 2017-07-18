@@ -4,7 +4,7 @@
 
 export function searchPosts(e, that) {
     let valueToSearch = e.target.value.toLowerCase(),
-        posts = that.state.posts;
+        posts = [...that.state.posts];
 
     let postsToSet = posts.filter(post => post.title.toLowerCase().indexOf(valueToSearch) !== -1);
 
