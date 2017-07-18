@@ -41,7 +41,7 @@ class App extends Component {
         
         this.setState(() => {
             return {displayedPosts: postsToSet[0]}
-        })
+        });
     };
     
     searchPosts = (e) => {
@@ -55,10 +55,37 @@ class App extends Component {
         })
     };
     
+    sortBy = (e) => {
+        let criteria = e.target.value,
+            displayedPosts = this.state.displayedPosts,
+            users = this.state.users,
+            postsToSet;
+        
+        displayedPosts.forEach(post => {
+            let user = users.filter(user => parseInt(user.id, 10) === post.userId);
+            
+            switch (criteria) {
+                case 'author' : post[criteria] = user[0].name;
+                break;
+                
+                case 'city' : post[criteria] = user[0].address.city;
+                break;
+                
+                case 'company' : post[criteria] = user[0].company.name;
+                break;
+            }
+        });
+
+        postsToSet = [...displayedPosts].sort((a, b) => a[criteria].localeCompare(b[criteria]));
+
+        this.setState(() => {
+            return {displayedPosts: postsToSet}
+        });
+    };
+    
     render() {
         let cities = [...new Set(this.state.users.map(user => user.address.city))],
-            companies = [...new Set(this.state.users.map(user => user.company.name))],
-            authors = [...new Set(this.state.users.map(user => user.name))];
+            companies = [...new Set(this.state.users.map(user => user.company.name))];
         
         return (
             <div className="posts">
@@ -66,29 +93,34 @@ class App extends Component {
                 
                 <nav>
                     <label>City filter:
-                        <select onChange={this.filterBy.bind(this, 'city')}>
-                            {cities.map((city, i) =>
-                                <option key={i}>
-                                    {city}
-                                </option>
-                            )}
+                        <select defaultValue='placeholder'
+                                onChange={this.filterBy.bind(this, 'city')}>
+                                    <option value='placeholder' disabled>chose a city</option>
+                                        {cities.map((city, i) =>
+                                            <option key={i}>
+                                                {city}
+                                            </option>
+                                        )}
                         </select>
                     </label>
                     <label>Company filter:
-                        <select onChange={this.filterBy.bind(this, 'company')}>
-                            {companies.map((company, i) =>
-                                <option key={i}>
-                                    {company}
-                                </option>
-                            )}
+                        <select defaultValue='placeholder' 
+                                onChange={this.filterBy.bind(this, 'company')}>
+                                    <option value='placeholder' disabled>select a company</option>
+                                        {companies.map((company, i) =>
+                                            <option key={i}>
+                                                {company}
+                                            </option>
+                                        )}
                         </select>
                     </label>
                     <label>Quick search by post title
-                        <input type="text" placeholder="search" onKeyUp={this.searchPosts}/>
+                        <input type="text" placeholder="search" onKeyUp={this.searchPosts} />
                     </label>
                     <hr/>
                     <label>Sort by:
-                        <select>
+                        <select defaultValue='placeholder' onChange={this.sortBy}>
+                            <option value='placeholder' disabled>sort by</option>
                             <option value="author">Author name</option>
                             <option value="city">City name</option>
                             <option value="company">Company name</option>
