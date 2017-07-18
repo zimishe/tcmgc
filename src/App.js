@@ -83,6 +83,14 @@ class App extends Component {
         });
     };
     
+    removePost = (id) => {
+        let postsToSet = this.state.displayedPosts.filter(post => post.id !== id);
+
+        this.setState(() => {
+            return {displayedPosts: postsToSet}
+        });
+    };
+    
     render() {
         let cities = [...new Set(this.state.users.map(user => user.address.city))],
             companies = [...new Set(this.state.users.map(user => user.company.name))];
@@ -127,7 +135,7 @@ class App extends Component {
                         </select>
                     </label>
                 </nav>
-                <PostList data={this.state} />
+                <PostList data={this.state} removePost={this.removePost} />
             </div>
         )
     }

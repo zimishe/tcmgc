@@ -5,7 +5,6 @@
 import React from 'react'
 
 const Post = (props) => {
-    // console.log('pr', props);
     return (
         <article className="posts__list__item">
             <h2 title={props.title}>{props.title}</h2>
@@ -13,7 +12,7 @@ const Post = (props) => {
             <span>{props.userInfo.company.name}</span>-  
             <span>{props.userInfo.address.city}</span>
             <p>{props.body}</p>
-            <button>X</button>
+            <button onClick={props.removePost.bind(this, props.id)}>X</button>
         </article>
     )
 };

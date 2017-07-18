@@ -18,6 +18,7 @@ const PostList = (data) => {
                       body={post.body}
                       userId={post.userId}
                       userInfo={users.filter(user => parseInt(user.id, 10) === post.userId)[0]}
+                      removePost={data.removePost}
                 />
             )}
         </div>
