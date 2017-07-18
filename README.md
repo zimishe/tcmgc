@@ -1,5 +1,16 @@
 sources - src/ directory, build - build/ directory
 
+// NOTE:
+
+it's better to check the functionality of filter 
+'Sort by:' while nothing is selected in filters 'City filter' and 'Company filter'
+because company name and author name are the same when we sort it by e.g Company 
+(we have only one employee for each company).
+so it's more obvious to check the filter when we have all
+the data displayed, with different authors and companies
+
+//
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
