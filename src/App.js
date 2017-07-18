@@ -3,6 +3,10 @@ import './App.css'
 import postsData from './data/posts.json'
 import usersData from './data/users.json'
 import PostList from './components/postList'
+import CityFilter from './components/filters/cityFilter'
+import CompanyFilter from './components/filters/companyFilter'
+import SearchForm from './components/searchForm'
+import SortBy from './components/filters/sortBy'
 
 import { filterBy } from './actions/filterBy'
 import { searchPosts } from './actions/searchPosts'
@@ -45,40 +49,15 @@ class App extends Component {
                 <h1>Posts</h1>
                 
                 <nav>
-                    <label>City filter:
-                        <select defaultValue='placeholder'
-                                onChange={this.filterBy.bind(this, 'city')}>
-                                    <option value='placeholder' disabled>chose a city</option>
-                                        {cities.map((city, i) =>
-                                            <option key={i}>
-                                                {city}
-                                            </option>
-                                        )}
-                        </select>
-                    </label>
-                    <label>Company filter:
-                        <select defaultValue='placeholder' 
-                                onChange={this.filterBy.bind(this, 'company')}>
-                                    <option value='placeholder' disabled>select a company</option>
-                                        {companies.map((company, i) =>
-                                            <option key={i}>
-                                                {company}
-                                            </option>
-                                        )}
-                        </select>
-                    </label>
-                    <label>Quick search by post title
-                        <input type="text" placeholder="search" onKeyUp={this.searchPosts} />
-                    </label>
+                    <CityFilter onChange={this.filterBy.bind(this, 'city')} 
+                                cities={cities}
+                    />
+                    <CompanyFilter onChange={this.filterBy.bind(this, 'company')}
+                                   companies={companies}
+                    />
+                    <SearchForm onKeyUp={this.searchPosts} />
                     <hr/>
-                    <label>Sort by:
-                        <select defaultValue='placeholder' onChange={this.sortBy}>
-                            <option value='placeholder' disabled>sort by</option>
-                            <option value="author">Author name</option>
-                            <option value="city">City name</option>
-                            <option value="company">Company name</option>
-                        </select>
-                    </label>
+                    <SortBy onChange={this.sortBy} />
                 </nav>
                 <PostList data={this.state} removePost={this.removePost} />
             </div>
