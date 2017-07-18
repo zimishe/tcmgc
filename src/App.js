@@ -4,6 +4,11 @@ import postsData from './data/posts.json'
 import usersData from './data/users.json'
 import PostList from './components/postList'
 
+import { filterBy } from './actions/filterBy'
+import { searchPosts } from './actions/searchPosts'
+import { sortBy } from './actions/sortBy'
+import { removePost } from './actions/removePost'
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -16,79 +21,19 @@ class App extends Component {
     }
     
     filterBy = (criteria, e) => {
-        let users,
-            postsToSet = [],
-            userIDs;
-        
-        switch (criteria) {
-            case 'city' :
-                users = this.state.users
-                    .filter(user => user.address.city === e.target.value);
-            break;
-            
-            case 'company' :
-                users = this.state.users
-                    .filter(user => user.company.name === e.target.value);
-            break;
-        }
-        
-        userIDs = users.map(user => parseInt(user.id, 10));
-        
-        userIDs.forEach(id => {
-           let post = this.state.posts.filter(post => post.userId === id);
-           postsToSet.push(post);
-        });
-        
-        this.setState(() => {
-            return {displayedPosts: postsToSet[0]}
-        });
+        filterBy(criteria, e, this);
     };
     
     searchPosts = (e) => {
-        let valueToSearch = e.target.value.toLowerCase(),
-            posts = this.state.posts;
-        
-        let postsToSet = posts.filter(post => post.title.toLowerCase().indexOf(valueToSearch) !== -1);
-        
-        this.setState(() => {
-            return {displayedPosts: postsToSet}
-        })
+        searchPosts(e, this);
     };
     
     sortBy = (e) => {
-        let criteria = e.target.value,
-            displayedPosts = this.state.displayedPosts,
-            users = this.state.users,
-            postsToSet;
-        
-        displayedPosts.forEach(post => {
-            let user = users.filter(user => parseInt(user.id, 10) === post.userId);
-            
-            switch (criteria) {
-                case 'author' : post[criteria] = user[0].name;
-                break;
-                
-                case 'city' : post[criteria] = user[0].address.city;
-                break;
-                
-                case 'company' : post[criteria] = user[0].company.name;
-                break;
-            }
-        });
-
-        postsToSet = [...displayedPosts].sort((a, b) => a[criteria].localeCompare(b[criteria]));
-
-        this.setState(() => {
-            return {displayedPosts: postsToSet}
-        });
+        sortBy(e, this);
     };
     
     removePost = (id) => {
-        let postsToSet = this.state.displayedPosts.filter(post => post.id !== id);
-
-        this.setState(() => {
-            return {displayedPosts: postsToSet}
-        });
+        removePost(id, this);
     };
     
     render() {
